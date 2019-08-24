@@ -171,7 +171,7 @@ extern "C" void __declspec(dllexport) __cdecl Start(HWND hwndNSIS,int N_CCH,TCHA
 	}
 }
 
-extern "C" BOOL WINAPI _DllMainCRTStartup(HMODULE hInst,UINT Reason,LPVOID lpReserved)
+extern "C" BOOL WINAPI DllMain(HMODULE hInst,UINT Reason,LPVOID lpReserved)
 {
 	g_ThisDll=hInst;
 	return TRUE;
