@@ -117,7 +117,7 @@ LRESULT CALLBACK PBSubProc(HWND hwnd,UINT msg,WPARAM wp,LPARAM lp)
 	return CallWindowProc(g_PBOrgProc,hwnd,msg,wp,lp);
 }
 
-UINT_PTR NSISCALL NSISPluginCallback(UINT Event) 
+UINT_PTR NSISPluginCallback(UINT Event) 
 {
 /*	switch(Event) 
 	{
