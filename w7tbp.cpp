@@ -17,6 +17,7 @@ Docs say we must wait for RegisterWindowMessage(L"TaskbarButtonCreated") before 
 
 #define _WIN32_WINNT 0x0500
 
+#include <tchar.h>
 #include <windows.h>
 #include <commctrl.h>
 #include <Objbase.h>
@@ -26,6 +27,8 @@ Docs say we must wait for RegisterWindowMessage(L"TaskbarButtonCreated") before 
 const GUID CLSID_ITaskbarList={0x56FDF344,0xFD6D,0x11d0,{0x95,0x8A,0x00,0x60,0x97,0xC9,0xA0,0x90}};
 const GUID IID_ITaskbarList1 ={0x56FDF342,0xFD6D,0x11d0,{0x95,0x8A,0x00,0x60,0x97,0xC9,0xA0,0x90}};
 const GUID IID_ITaskbarList3 ={0xea1afb91,0x9e28,0x4b86,{0x90,0xe9,0x9e,0x9f,0x8a,0x5e,0xef,0xaf}};
+
+#ifndef __ITaskbarList3_INTERFACE_DEFINED__
 
 enum	TBPFLAG {
 	TBPF_NOPROGRESS = 0,
@@ -65,11 +68,13 @@ public:
 	//virtual STDMETHODIMP SetTabProperties(HWND hwndTab,STPFLAG stpFlags);
 };
 
+#endif	///__ITaskbarList3_INTERFACE_DEFINED__
+
 #define NSISCALL __stdcall
 typedef struct {
   LPVOID xxx1;//exec_flags_type *exec_flags;
   int (NSISCALL *ExecuteCodeSegment)(int, HWND);
-  void (NSISCALL *validate_filename)(char *);
+  void (NSISCALL *validate_filename)(LPTSTR);
   int (NSISCALL *RegisterPluginCallback)(HMODULE,LPVOID);
 } extra_parameters;
 
@@ -112,22 +117,22 @@ LRESULT CALLBACK PBSubProc(HWND hwnd,UINT msg,WPARAM wp,LPARAM lp)
 	return CallWindowProc(g_PBOrgProc,hwnd,msg,wp,lp);
 }
 
-UINT_PTR __cdecl NSISPluginCallback(/*UINT Event*/) 
+UINT_PTR NSISCALL NSISPluginCallback(UINT Event) 
 {
 /*	switch(Event) 
 	{
 	case NSPIM_UNLOAD:
 		break;
 	}
-*/	return NULL;
+*/	return 0;
 }
 
-extern "C" void __declspec(dllexport) __cdecl Start(HWND hwndNSIS,int N_CCH,char*N_Vars,LPVOID ppST,extra_parameters*pXP) 
+extern "C" void __declspec(dllexport) __cdecl Start(HWND hwndNSIS,int N_CCH,TCHAR*N_Vars,LPVOID ppST,extra_parameters*pXP) 
 {
 	HRESULT hr;
 	g_hwndNsis=hwndNSIS;
 	
-	pXP->RegisterPluginCallback(g_ThisDll,NSISPluginCallback);
+	pXP->RegisterPluginCallback(g_ThisDll,(LPVOID)NSISPluginCallback);
 	
 	CoCreateInstance(CLSID_ITaskbarList,NULL,CLSCTX_INPROC_SERVER,IID_ITaskbarList3,(void**)&g_pTL);
 	
@@ -139,7 +144,7 @@ extern "C" void __declspec(dllexport) __cdecl Start(HWND hwndNSIS,int N_CCH,char
 		
 		if (SUCCEEDED(hr)) 
 		{
-			HWND hProgress=FindWindowEx(FindWindowEx(hwndNSIS,NULL,"#32770",NULL),NULL,"msctls_progress32",NULL);
+			HWND hProgress=FindWindowEx(FindWindowEx(hwndNSIS,NULL,_T("#32770"),NULL),NULL,_T("msctls_progress32"),NULL);
 			
 			
 			
