@@ -71,7 +71,7 @@ BEGIN
             VALUE "FileVersion", "1.2009.11.9"
             VALUE "InternalName", "w7tbp.dll"
             VALUE "LegalCopyright", "(C)2009, AndersK. All rights reserved."
-			VALUE "LegalTrademarks", "Built by Marius Negrutiu (https://github.com/negrutiu/nsis)"
+			VALUE "LegalTrademarks", "https://github.com/negrutiu/nsis-taskbarprogress"
             VALUE "OriginalFilename", "w7tbp.dll"
             VALUE "ProductName", "NSIS plug-in"
             VALUE "ProductVersion", "1.0.0.0"
