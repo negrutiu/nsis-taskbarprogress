@@ -1,6 +1,5 @@
-# TaskbarProgress ([NSIS](https://nsis.sourceforge.io/Main_Page) plugin)
-It displays the installation progress in Windows' taskbar<br>
-The plugin is included in my **unofficial** [NSIS builds](https://github.com/negrutiu/nsis)
+# TaskbarProgress ([NSIS](https://github.com/negrutiu/nsis) plugin)
+It displays the installation progress in Windows' taskbar
 
 #
 This is a clone of the original project created by **Anders**<br>
