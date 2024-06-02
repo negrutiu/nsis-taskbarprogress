@@ -20,8 +20,8 @@ Docs say we must wait for RegisterWindowMessage(L"TaskbarButtonCreated") before 
 #include <tchar.h>
 #include <windows.h>
 #include <commctrl.h>
-#include <Objbase.h>
-#include <ShObjIdl.h>
+#include <objbase.h>
+#include <shobjidl.h>
 
 
 const GUID CLSID_ITaskbarList={0x56FDF344,0xFD6D,0x11d0,{0x95,0x8A,0x00,0x60,0x97,0xC9,0xA0,0x90}};
